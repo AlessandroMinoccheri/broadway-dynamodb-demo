@@ -1,0 +1,28 @@
+version: '2'
+services:
+  ubuntu_nginx:
+    tty: true
+    image: studiomado/nginx_ubuntu:1.0
+    ports:
+      - 80:80
+    volumes:
+      - ./utils/default.conf:/etc/nginx/sites-available/default
+      - ./utils/default.conf:/etc/nginx/sites-enabled/default
+      - ./utils/nginx.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/web
+    depends_on:
+      - ubuntu_php
+  ubuntu_php:
+    tty: true
+    image: studiomado/php71_ubuntu:1.0
+    ports:
+      - 9000:9000
+    volumes:
+      - .:/var/www/web
+  dynamodb:
+    image: amazon/dynamodb-local
+    ports:
+      - 8000:8000
+    expose:
+      - 8000
+

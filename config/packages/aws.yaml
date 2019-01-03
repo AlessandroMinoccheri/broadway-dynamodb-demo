@@ -1,0 +1,13 @@
+aws:
+    version: latest
+    region: "%env(AWS_REGION)%"
+    endpoint: "%env(AWS_ENDPOINT)%"
+    credentials:
+        key: "%env(AWS_KEY)%"
+        secret: "%env(AWS_SECRET)%"
+
+    DynamoDb:
+        version: latest
+        region: "%env(AWS_REGION)%"
+        endpoint: "%env(AWS_ENDPOINT)%"
+        credentials: "@credentials_service"

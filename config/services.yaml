@@ -1,0 +1,94 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: true       # Allows optimizing the container by removing unused services; this also means
+                            # fetching services directly from the container via $container->get() won't work.
+                            # The best practice is to be explicit about your dependencies anyway.
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php,Infrastructure\Repository,Application\Handler,Domain,Infrastructure}'
+
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Infrastructure\Delivery\Http\:
+        resource: '../src/Infrastructure/Delivery/Http'
+        tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+
+          # Aws\DynamoDb\DynamoDbClient:
+   #     factory:   'Aws\AwsClient:factory'
+   #         arguments:
+   #             -
+   #                 $region: '%env(AWS_DEFAULT_REGION)%'
+   #                 $version: '%env(AWS_VERSION)%'
+   #                 $endpoint: '%env(AWS_END_POINT)%'
+                #- $credentials: {key: '%env(AWS_ACCESS_KEY_ID)%', secret: '%env(AWS_SECRET_ACCESS_KEY)%'}
+    #app.dynamodbclient:
+    #    alias: Aws\DynamoDb\DynamoDbClient
+    #    public: true
+##
+
+    credentials_service:
+        class: Aws\Credentials\Credentials
+        arguments:
+            - "%env(AWS_KEY)%"
+            - "%env(AWS_SECRET)%"
+
+    App\Infrastructure\Repository\CreatePostReadModelRepository:
+        class: App\Infrastructure\Repository\CreatePostReadModelRepository
+        arguments:
+            - '@aws.dynamodb'
+
+    Broadway\EventStore\DynamoDb\DynamoDbEventStore:
+        class: Broadway\EventStore\DynamoDb\DynamoDbEventStore
+        arguments:
+            - '@aws.dynamodb'
+            - '@broadway.serializer.metadata'
+            - '@broadway.serializer.payload'
+            - "%env(AWS_EVENT_STORE_TABLE)%"
+            -
+    App\Infrastructure\Repository\PostRepository:
+        class: App\Infrastructure\Repository\PostRepository
+        arguments:
+            - '@Broadway\EventStore\DynamoDb\DynamoDbEventStore'
+            - '@broadway.event_handling.event_bus'
+
+    App\Application\Handler\PostCommandHandler:
+        class: App\Application\Handler\PostCommandHandler
+        arguments:
+            - '@App\Infrastructure\Repository\PostRepository'
+        tags:
+            - { name: broadway.command_handler }
+
+    App\Application\Projector\CreatePostProjector:
+        class: App\Application\Projector\CreatePostProjector
+        arguments:
+            - '@App\Infrastructure\Repository\CreatePostReadModelRepository'
+        tags:
+            - { name: broadway.domain.event_listener}
+
+    App\Application\Service\Post\CreatePostService:
+        class: App\Application\Service\Post\CreatePostService
+        arguments:
+            - '@broadway.command_handling.simple_command_bus'
+
+    App\Infrastructure\Command\CreateDatabase:
+        tags:
+            - { name: 'console.command', command: 'app:create-database' }
+
+##
