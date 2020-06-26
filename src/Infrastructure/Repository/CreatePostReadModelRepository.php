@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: alessandrominoccheri
@@ -24,7 +25,7 @@ class CreatePostReadModelRepository implements Repository, ReadModelRepository
         $this->dynamoDbClient = $dynamoDbClient;
     }
 
-    public function save(Identifiable $procedure)
+    public function save(Identifiable $procedure): void
     {
         $marshal = new Marshaler();
         $data = $marshal->marshalJson(json_encode($procedure->serialize()));
@@ -37,9 +38,9 @@ class CreatePostReadModelRepository implements Repository, ReadModelRepository
         );
     }
 
-    public function getTableName() :string
+    public function getTableName(): string
     {
-       return 'post_read_model';
+        return 'post_read_model';
     }
 
     /**
@@ -47,7 +48,7 @@ class CreatePostReadModelRepository implements Repository, ReadModelRepository
      *
      * @return Identifiable|null
      */
-    public function find($id)
+    public function find($id): ?Identifiable
     {
         // TODO: Implement find() method.
     }
@@ -90,9 +91,8 @@ class CreatePostReadModelRepository implements Repository, ReadModelRepository
     /**
      * @param mixed $id
      */
-    public function remove($id)
+    public function remove($id): void
     {
         $this->dynamoDbClient->delete($this->getTableName(), ['id' => $id]);
     }
-
 }

@@ -31,9 +31,9 @@ class CreateDatabase extends Command
         $credentials = new Credentials(getenv("AWS_KEY"), getenv("AWS_SECRET"));
 
         $dynamoDbClient = new DynamoDbClient([
-            'region' => getenv("AWS_REGION"),
+            'region' => 'eu-west-1',
             'version' => 'latest',
-            'endpoint' => getenv("AWS_ENDPOINT"),
+            'endpoint' => 'http://dynamodb:8000',
             'credentials' => $credentials
         ]);
 
