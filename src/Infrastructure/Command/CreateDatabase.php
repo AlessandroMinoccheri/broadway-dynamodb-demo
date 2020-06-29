@@ -40,6 +40,8 @@ class CreateDatabase extends Command
         $this->deleteTables($dynamoDbClient);
         $this->createEventStoreTable($dynamoDbClient);
         $this->createPostTable($dynamoDbClient);
+
+        return 1;
     }
 
     private function deleteTables(DynamoDbClient $dynamoDbClient)

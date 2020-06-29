@@ -16,9 +16,10 @@ services:
       - php_fpm_broadway_demo
       - dynamodb
     environment:
-      - AWS_ACCESS_KEY_ID='not-a-real-key'
-      - AWS_SECRET_ACCESS_KEY='@@not-a-real-secret'
-      - REGION='eu-west-1'
+      - AWS_ACCESS_KEY_ID=not-a-real-key
+      - AWS_SECRET_ACCESS_KEY=@@not-a-real-secret
+      - AWS_EVENT_STORE_TABLE=event_store
+      - REGION=eu-west-1
 
   php_fpm_broadway_demo:
     container_name: php_fpm_broadway_demo
@@ -33,9 +34,10 @@ services:
     links:
       - dynamodb
     environment:
-      - AWS_ACCESS_KEY_ID='not-a-real-key'
-      - AWS_SECRET_ACCESS_KEY='@@not-a-real-secret'
-      - REGION='eu-west-1'
+      - AWS_ACCESS_KEY_ID=not-a-real-key
+      - AWS_SECRET_ACCESS_KEY=@@not-a-real-secret
+      - AWS_EVENT_STORE_TABLE=event_store
+      - REGION=eu-west-1
 
   dynamodb:
     container_name: dynamodb
@@ -44,16 +46,3 @@ services:
       - 8000:8000
     expose:
       - 8000
-
-  #dynamodb:
-    #  container_name: dynamodb
-    #  hostname: dynamodb
-    #  image: amazon/dynamodb-local:latest
-      #  ports:
-    #    - 8000:8000
-      #  expose:
-    #   - 8000
-      # networks:
-        #   internal_net:
-    #     ipv4_address: 172.28.1.1
-    # command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-inMemory"]

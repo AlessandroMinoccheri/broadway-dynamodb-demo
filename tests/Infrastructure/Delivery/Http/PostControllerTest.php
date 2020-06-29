@@ -13,7 +13,6 @@ class PostControllerTest extends ApiTestCase
 {
     public function testCreatePost()
     {
-
         $this->client->request('POST',
             '/posts',
             [
@@ -22,7 +21,6 @@ class PostControllerTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(500, $this->client->getResponse()->getStatusCode());
-        $this->assertEquals('', $this->client->getResponse()->getContent());
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
     }
 }
