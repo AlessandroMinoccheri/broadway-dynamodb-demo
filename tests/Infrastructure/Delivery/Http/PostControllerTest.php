@@ -22,6 +22,7 @@ class PostControllerTest extends ApiTestCase
             ]
         );
 
-        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals(500, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('', $this->client->getResponse()->getContent());
     }
 }

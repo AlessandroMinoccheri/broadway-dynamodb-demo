@@ -28,7 +28,7 @@ class CreateDatabase extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $credentials = new Credentials(getenv("AWS_KEY"), getenv("AWS_SECRET"));
+        $credentials = new Credentials(getenv("AWS_ACCESS_KEY_ID"), getenv("AWS_SECRET_ACCESS_KEY"));
 
         $dynamoDbClient = new DynamoDbClient([
             'region' => 'eu-west-1',
