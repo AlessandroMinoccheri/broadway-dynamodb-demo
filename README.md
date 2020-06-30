@@ -85,9 +85,12 @@ To launch tests, write into your CLI:
 ```
 ./runtests.sh
 ```
+## TEST YOUR APPLICATION USING DOCKER CONTAINER
+
 You can also launch tests inside the container.
 
 ```
+docker-compose up -d
 ./container_execute_test.sh
 ```
 
