@@ -12,9 +12,8 @@ services:
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - dynamodb
-    links:
       - php_fpm_broadway_demo
-      - dynamodb
+
     environment:
       - AWS_ACCESS_KEY_ID=not-a-real-key
       - AWS_SECRET_ACCESS_KEY=@@not-a-real-secret
@@ -30,8 +29,6 @@ services:
     volumes:
       - .:/var/www/web
     depends_on:
-      - dynamodb
-    links:
       - dynamodb
     environment:
       - AWS_ACCESS_KEY_ID=not-a-real-key
