@@ -15,10 +15,16 @@ class PostController
      */
     public function create(Request $request, CreatePostService $createPostService)
     {
-        $title = $request->get('title');
-        $description = $request->get('description');
+        try {
+            $title = $request->get('title');
+            $description = $request->get('description');
 
-        $post = $createPostService->execute($title, $description);
+            $post = $createPostService->execute($title, $description);
+        } catch (\Exception $e) {
+            return new JsonResponse($e->getMessage(), 500, array(
+                'Content-Type' => 'application/json',
+            ));
+        }
 
         return new JsonResponse(['post' => $post], 201, array(
             'Content-Type' => 'application/json',

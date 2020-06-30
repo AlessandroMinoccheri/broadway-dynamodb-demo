@@ -17,11 +17,14 @@
         <!-- define your env variables for the test env here -->
 
         <!-- ###+ aws/aws-sdk-php-symfony ### -->
+        <env name="AWS_ACCESS_KEY_ID" value="not-a-real-key"/>
+        <env name="AWS_SECRET_ACCESS_KEY" value="@@not-a-real-secret"/>
         <env name="AWS_KEY" value="not-a-real-key"/>
         <env name="AWS_SECRET" value="@@not-a-real-secret"/>
         <env name="AWS_ENDPOINT" value="http://dynamodb:8000"/>
         <env name="AWS_EVENT_STORE_TABLE" value="event_store"/>
         <env name="AWS_REGION" value="eu-west-1"/>
+        <env name="REGION" value="eu-west-1"/>
         <!-- ###- aws/aws-sdk-php-symfony ### -->
     </php>
 

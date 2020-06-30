@@ -13,7 +13,6 @@ class PostControllerTest extends ApiTestCase
 {
     public function testCreatePost()
     {
-
         $this->client->request('POST',
             '/posts',
             [

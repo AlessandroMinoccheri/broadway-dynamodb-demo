@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: alessandrominoccheri
@@ -9,7 +10,6 @@
 namespace App\Domain\Post\Command;
 
 
-use App\Domain\Post\ValueObject\User;
 use Ramsey\Uuid\UuidInterface;
 
 class CreatePost
@@ -62,5 +62,5 @@ class CreatePost
     {
         return $this->description;
     }
-
 }
+
