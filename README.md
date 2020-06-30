@@ -85,6 +85,11 @@ To launch tests, write into your CLI:
 ```
 ./runtests.sh
 ```
+You can also launch tests inside the container.
+
+```
+./container_execute_test.sh
+```
 
 After that you can open your browser and visit this link: ```http://localhost:8000/shell```
 
