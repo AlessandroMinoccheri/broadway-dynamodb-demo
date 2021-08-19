@@ -4,7 +4,7 @@ This is a simple demo with Symfony 4 broadway and dynamodb.
 
 ## Configuration
 
-Inside ````composer.json```` file you can get all dependency requires to create your events stored into a dynamodb database on aws.
+Inside ````composer.json```` file you can get all the dependencies required to create your events store into a dynamodb database on aws.
 
 Into ```config/packages/aws.yaml``` you need to put your credentials and information about aws
 
@@ -54,7 +54,7 @@ App\Infrastructure\Repository\CreatePostReadModelRepository:
             - { name: 'console.command', command: 'app:create-database' }
 ```
 
-Insider your .env you need to set your aws environment variables, for example:
+Inside your .env you need to set your aws environment variables, for example:
 
 ```
 AWS_KEY=not-a-real-key
